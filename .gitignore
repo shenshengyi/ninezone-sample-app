@@ -49,3 +49,6 @@ react-app-env.d.ts
 # misc
 *.TileCache*
 *.Tiles
+# bim
+*.bim
+*.i.bim
