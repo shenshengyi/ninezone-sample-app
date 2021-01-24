@@ -1,4 +1,5 @@
 import { CommandItemDef, ItemList } from "@bentley/ui-framework";
+import { TeskWalkRound } from "./WalkRound";
 
 export class TestFeature {
   public static createCommand(
@@ -17,11 +18,7 @@ export class TestFeature {
     return testV1Def;
   }
   public static itemLists = new ItemList([
-    TestFeature.createCommand(
-      "addFeatureSymbology",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
+    TestFeature.createCommand("TeskWalkRound", "漫游", TeskWalkRound),
     TestFeature.createCommand(
       "addFeatureSymbology1",
       "测试AddFeatureSymbology",

@@ -1,15 +1,25 @@
 /*---------------------------------------------------------------------------------------------
-* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
-* See LICENSE.md in the project root for license terms and full copyright notice.
-*--------------------------------------------------------------------------------------------*/
+ * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+ * See LICENSE.md in the project root for license terms and full copyright notice.
+ *--------------------------------------------------------------------------------------------*/
 import { Config } from "@bentley/bentleyjs-core";
 import { FrontendAuthorizationClient } from "@bentley/frontend-authorization-client";
 import { BentleyCloudRpcParams } from "@bentley/imodeljs-common";
-import { FrontendRequestContext, IModelApp, IModelAppOptions } from "@bentley/imodeljs-frontend";
+import {
+  FrontendRequestContext,
+  IModelApp,
+  IModelAppOptions,
+} from "@bentley/imodeljs-frontend";
 import { UrlDiscoveryClient } from "@bentley/itwin-client";
-import { AppNotificationManager, FrameworkReducer, FrameworkRootState, StateManager } from "@bentley/ui-framework";
+import {
+  AppNotificationManager,
+  FrameworkReducer,
+  FrameworkRootState,
+  StateManager,
+} from "@bentley/ui-framework";
 import { initRpc } from "../api/rpc";
 import { Store } from "redux";
+import { WalkRoundTool } from "../feature/WalkRound";
 
 export type RootState = FrameworkRootState;
 
@@ -32,7 +42,9 @@ export class NineZoneSampleApp {
     return StateManager.store as Store<RootState>;
   }
 
-  public static get oidcClient(): FrontendAuthorizationClient { return IModelApp.authorizationClient as FrontendAuthorizationClient; }
+  public static get oidcClient(): FrontendAuthorizationClient {
+    return IModelApp.authorizationClient as FrontendAuthorizationClient;
+  }
 
   public static async startup(): Promise<void> {
     // use new state manager that allows dynamic additions from extensions and snippets
@@ -51,29 +63,40 @@ export class NineZoneSampleApp {
 
     // initialize RPC communication
     await NineZoneSampleApp.initializeRpc();
-
-    // initialize localization for the app
-    await IModelApp.i18n.registerNamespace("NineZoneSample").readFinished;
+    await this.registerTool();
   }
-
+  private static async registerTool() {
+    await IModelApp.i18n.registerNamespace("NineZoneSample").readFinished;
+    WalkRoundTool.register(IModelApp.i18n.getNamespace("NineZoneSample"));
+  }
   private static async initializeRpc(): Promise<void> {
     const rpcParams = await this.getConnectionInfo();
     initRpc(rpcParams);
   }
 
-  private static async getConnectionInfo(): Promise<BentleyCloudRpcParams | undefined> {
+  private static async getConnectionInfo(): Promise<
+    BentleyCloudRpcParams | undefined
+  > {
     const usedBackend = Config.App.getNumber("imjs_backend", UseBackend.Local);
 
     if (usedBackend === UseBackend.GeneralPurpose) {
       const urlClient = new UrlDiscoveryClient();
       const requestContext = new FrontendRequestContext();
-      const orchestratorUrl = await urlClient.discoverUrl(requestContext, "iModelJsOrchestrator.K8S", undefined);
-      return { info: { title: "general-purpose-imodeljs-backend", version: "v2.0" }, uriPrefix: orchestratorUrl };
+      const orchestratorUrl = await urlClient.discoverUrl(
+        requestContext,
+        "iModelJsOrchestrator.K8S",
+        undefined
+      );
+      return {
+        info: { title: "general-purpose-imodeljs-backend", version: "v2.0" },
+        uriPrefix: orchestratorUrl,
+      };
     }
 
-    if (usedBackend === UseBackend.Local)
-      return undefined;
+    if (usedBackend === UseBackend.Local) return undefined;
 
-    throw new Error(`Invalid backend "${usedBackend}" specified in configuration`);
+    throw new Error(
+      `Invalid backend "${usedBackend}" specified in configuration`
+    );
   }
 }

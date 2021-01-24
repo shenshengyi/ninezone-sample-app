@@ -65,7 +65,7 @@ export default class App extends React.Component<{}, AppState> {
         //   OpenMode.ReadWrite
         // );
         // const offlineIModel = Config.App.getString("imjs_offline_imodel");
-        const offlineIModel = "./data/house.bim";
+        const offlineIModel = "./data/006.bim";
         imodel = await SnapshotConnection.openFile(offlineIModel);
         this._onIModelSelected(imodel);
       }

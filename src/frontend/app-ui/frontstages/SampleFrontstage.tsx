@@ -31,7 +31,7 @@ import {
   ZoneState,
 } from "@bentley/ui-framework";
 import * as React from "react";
-import { TestFeature } from "../../api/feature";
+import { TestFeature } from "../../feature/feature";
 import { AppUi } from "../AppUi";
 import { TableContent } from "../contentviews/TableContent";
 import { AppStatusBarWidget } from "../statusbars/AppStatusBar";
