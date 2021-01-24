@@ -54,3 +54,4 @@ react-app-env.d.ts
 *.i.bim
 # db
 *.db
+*.db-journal
