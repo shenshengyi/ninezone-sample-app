@@ -52,3 +52,5 @@ react-app-env.d.ts
 # bim
 *.bim
 *.i.bim
+# db
+*.db
