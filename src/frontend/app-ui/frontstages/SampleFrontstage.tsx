@@ -1,14 +1,37 @@
 /*---------------------------------------------------------------------------------------------
-* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
-* See LICENSE.md in the project root for license terms and full copyright notice.
-*--------------------------------------------------------------------------------------------*/
+ * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+ * See LICENSE.md in the project root for license terms and full copyright notice.
+ *--------------------------------------------------------------------------------------------*/
 import { ViewState } from "@bentley/imodeljs-frontend";
 import {
-  ContentGroup, ContentLayoutDef, ContentViewManager, CoreTools, CustomItemDef, Frontstage,
-  FrontstageProvider, IModelConnectedNavigationWidget, IModelConnectedViewSelector, IModelViewportControl,
-  ItemList, StagePanel, SyncUiEventId, ToolWidget, UiFramework, Widget, WidgetState, Zone, ZoneState,
+  BasicNavigationWidget,
+  BasicToolWidget,
+  CommandItemDef,
+  ContentGroup,
+  ContentLayoutDef,
+  ContentViewManager,
+  CoreTools,
+  CustomItemDef,
+  Frontstage,
+  FrontstageProvider,
+  IModelConnectedNavigationWidget,
+  IModelConnectedViewSelector,
+  IModelViewportControl,
+  ItemList,
+  ReviewToolWidget,
+  StagePanel,
+  SyncUiEventId,
+  ToolbarHelper,
+  ToolWidget,
+  ToolWidgetComposer,
+  UiFramework,
+  Widget,
+  WidgetState,
+  Zone,
+  ZoneState,
 } from "@bentley/ui-framework";
 import * as React from "react";
+import { TestFeature } from "../../api/feature";
 import { AppUi } from "../AppUi";
 import { TableContent } from "../contentviews/TableContent";
 import { AppStatusBarWidget } from "../statusbars/AppStatusBar";
@@ -32,7 +55,7 @@ export class SampleFrontstage extends FrontstageProvider {
 
     // Create the content layouts.
     this._contentLayoutDef = new ContentLayoutDef({
-      horizontalSplit: { percentage: 0.75, top: 0, bottom: 1 },
+      // horizontalSplit: { percentage: 0.75, top: 0, bottom: 1 },
     });
 
     // Create the content group.
@@ -45,24 +68,31 @@ export class SampleFrontstage extends FrontstageProvider {
             iModelConnection: UiFramework.getIModelConnection(),
           },
         },
-        {
-          classId: TableContent,
-          applicationData: {
-            iModelConnection: UiFramework.getIModelConnection(),
-          },
-        },
+        // {
+        //   classId: TableContent,
+        //   applicationData: {
+        //     iModelConnection: UiFramework.getIModelConnection(),
+        //   },
+        // },
       ],
     });
   }
 
   /** Define the Frontstage properties */
   public get frontstage() {
-
     return (
-      <Frontstage id="SampleFrontstage"
-        defaultTool={CoreTools.selectElementCommand} defaultLayout={this._contentLayoutDef} contentGroup={this._contentGroup}
+      <Frontstage
+        /**Frontstage的id*/
+        id="SampleFrontstage"
+        /**启动前台后启动的工具*/
+        defaultTool={CoreTools.selectElementCommand}
+        /**使用的默认内容布局*/
+        defaultLayout={this._contentLayoutDef}
+        /**提供内容视图的内容组*/
+        contentGroup={this._contentGroup}
+        /**指示状态栏是处于页脚模式还是小部件模式。默认为true。*/
         isInFooterMode={true}
-
+        /**右上角的区域。@不推荐使用“viewNavigationTools”属性。*/
         topLeft={
           <Zone
             widgets={[
@@ -70,26 +100,37 @@ export class SampleFrontstage extends FrontstageProvider {
             ]}
           />
         }
-        topCenter={
-          <Zone
-            widgets={[
-              <Widget isToolSettings={true} />,
-            ]}
-          />
-        }
+        /**沿顶部中心边缘的区域。@不推荐使用“toolSettings”属性。*/
+        topCenter={<Zone widgets={[<Widget isToolSettings={true} />]} />}
+        /**右上角的区域。@不推荐使用“viewNavigationTools”属性。*/
         topRight={
           <Zone
             widgets={[
               /** Use standard NavigationWidget delivered in ui-framework */
-              <Widget isFreeform={true} element={<IModelConnectedNavigationWidget suffixVerticalItems={new ItemList([this._viewSelectorItemDef])} />} />,
+              <Widget
+                isFreeform={true}
+                element={
+                  <BasicNavigationWidget
+                    additionalVerticalItems={ToolbarHelper.createToolbarItemsFromItemDefs(
+                      [this._viewSelectorItemDef],30
+                    )}
+                  />
+                }
+              />,
             ]}
           />
         }
-        centerRight={
-          <Zone defaultState={ZoneState.Minimized} allowsMerging={true}
+        /**沿中心右边缘的区域。@不推荐将小部件放置在适当的阶段面板区域中。*/
+        centerLeft={
+          <Zone
+            defaultState={ZoneState.Minimized}
+            allowsMerging={true}
             widgets={[
-              <Widget control={TreeWidget} fillZone={true}
-                iconSpec="icon-tree" labelKey="NineZoneSample:components.tree"
+              <Widget
+                control={TreeWidget}
+                fillZone={true}
+                iconSpec="icon-tree"
+                labelKey="NineZoneSample:components.tree"
                 applicationData={{
                   iModelConnection: UiFramework.getIModelConnection(),
                 }}
@@ -97,6 +138,24 @@ export class SampleFrontstage extends FrontstageProvider {
             ]}
           />
         }
+        centerRight={
+          <Zone
+            defaultState={ZoneState.Minimized}
+            allowsMerging={true}
+            widgets={[
+              <Widget
+                control={TreeWidget}
+                fillZone={true}
+                iconSpec="icon-tree"
+                labelKey="NineZoneSample:components.tree"
+                applicationData={{
+                  iModelConnection: UiFramework.getIModelConnection(),
+                }}
+              />,
+            ]}
+          />
+        }
+        /**沿底部中心边缘的区域。@不推荐使用statusBar属性*/
         bottomCenter={
           <Zone
             widgets={[
@@ -104,11 +163,19 @@ export class SampleFrontstage extends FrontstageProvider {
             ]}
           />
         }
+        /**右下角的区域。@不推荐将小部件放置在适当的阶段面板区域中。*/
         bottomRight={
-          <Zone defaultState={ZoneState.Open} allowsMerging={true}
+          <Zone
+            defaultState={ZoneState.Open}
+            allowsMerging={true}
             widgets={[
-              <Widget id="Properties" control={PropertyGridWidget} defaultState={WidgetState.Closed} fillZone={true}
-                iconSpec="icon-properties-list" labelKey="NineZoneSample:components.properties"
+              <Widget
+                id="Properties"
+                control={PropertyGridWidget}
+                defaultState={WidgetState.Closed}
+                fillZone={true}
+                iconSpec="icon-properties-list"
+                labelKey="NineZoneSample:components.properties"
                 applicationData={{
                   iModelConnection: UiFramework.getIModelConnection(),
                 }}
@@ -118,11 +185,8 @@ export class SampleFrontstage extends FrontstageProvider {
             ]}
           />
         }
-        rightPanel={
-          <StagePanel
-            allowedZones={[6, 9]}
-          />
-        }
+        /**右边的panel. @beta  */
+        rightPanel={<StagePanel allowedZones={[2, 4]} />}
       />
     );
   }
@@ -130,7 +194,11 @@ export class SampleFrontstage extends FrontstageProvider {
   /** Determine the WidgetState based on the Selection Set */
   private _determineWidgetStateForSelectionSet = (): WidgetState => {
     const activeContentControl = ContentViewManager.getActiveContentControl();
-    if (activeContentControl && activeContentControl.viewport && (activeContentControl.viewport.view.iModel.selectionSet.size > 0))
+    if (
+      activeContentControl &&
+      activeContentControl.viewport &&
+      activeContentControl.viewport.view.iModel.selectionSet.size > 0
+    )
       return WidgetState.Open;
     return WidgetState.Closed;
   };
@@ -141,29 +209,22 @@ export class SampleFrontstage extends FrontstageProvider {
       customId: "sampleApp:viewSelector",
       reactElement: (
         <IModelConnectedViewSelector
-          listenForShowUpdates={false}  // Demo for showing only the same type of view in ViewSelector - See IModelViewport.tsx, onActivated
+          listenForShowUpdates={false} // Demo for showing only the same type of view in ViewSelector - See IModelViewport.tsx, onActivated
         />
       ),
     });
   }
-
 }
 
 /**
  * Define a ToolWidget with Buttons to display in the TopLeft zone.
  */
 class SampleToolWidget extends React.Component {
-
   public render(): React.ReactNode {
     const horizontalItems = new ItemList([
       CoreTools.selectElementCommand,
+      ...TestFeature.itemLists,
     ]);
-
-    return (
-      <ToolWidget
-        appButton={AppUi.backstageToggleCommand}
-        horizontalItems={horizontalItems}
-      />
-    );
+    return <ReviewToolWidget suffixVerticalItems={horizontalItems} />;
   }
 }
