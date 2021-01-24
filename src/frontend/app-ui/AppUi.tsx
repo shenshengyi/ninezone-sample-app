@@ -16,6 +16,7 @@ import {
   SyncUiEventDispatcher,
   UiFramework,
 } from "@bentley/ui-framework";
+import { TestDeSerializationView } from "../feature/SavedView";
 import { SampleFrontstage } from "./frontstages/SampleFrontstage";
 import { SampleFrontstage2 } from "./frontstages/SampleFrontstage2";
 
@@ -62,6 +63,7 @@ export class AppUi {
       frontstageProvider.frontstageDef
     ).then(() => {
       // Frontstage is ready
+      TestDeSerializationView();
     });
 
     // We create a FrontStage that contains the views that we want.

@@ -1,4 +1,5 @@
 import { CommandItemDef, ItemList } from "@bentley/ui-framework";
+import { TestDeSerializationView, TestSerializationView } from "./SavedView";
 import { TeskWalkRound } from "./WalkRound";
 
 export class TestFeature {
@@ -25,14 +26,14 @@ export class TestFeature {
       addFeatureSymbology
     ),
     TestFeature.createCommand(
-      "addFeatureSymbology2",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
+      "TestDeSerializationView",
+      "切换到保存视图",
+      TestDeSerializationView
     ),
     TestFeature.createCommand(
-      "addFeatureSymbology3",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
+      "TestSerializationView",
+      "保存当前视图至外部文件",
+      TestSerializationView
     ),
     TestFeature.createCommand(
       "addFeatureSymbology4",

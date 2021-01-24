@@ -5,8 +5,6 @@
 import { ViewState } from "@bentley/imodeljs-frontend";
 import {
   BasicNavigationWidget,
-  BasicToolWidget,
-  CommandItemDef,
   ContentGroup,
   ContentLayoutDef,
   ContentViewManager,
@@ -14,7 +12,6 @@ import {
   CustomItemDef,
   Frontstage,
   FrontstageProvider,
-  IModelConnectedNavigationWidget,
   IModelConnectedViewSelector,
   IModelViewportControl,
   ItemList,
@@ -22,8 +19,6 @@ import {
   StagePanel,
   SyncUiEventId,
   ToolbarHelper,
-  ToolWidget,
-  ToolWidgetComposer,
   UiFramework,
   Widget,
   WidgetState,
@@ -32,8 +27,6 @@ import {
 } from "@bentley/ui-framework";
 import * as React from "react";
 import { TestFeature } from "../../feature/feature";
-import { AppUi } from "../AppUi";
-import { TableContent } from "../contentviews/TableContent";
 import { AppStatusBarWidget } from "../statusbars/AppStatusBar";
 import { PropertyGridWidget } from "../widgets/PropertyGridWidget";
 import { TreeWidget } from "../widgets/TreeWidget";

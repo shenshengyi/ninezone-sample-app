@@ -124,6 +124,10 @@ class MyRoaming implements Animator {
     this.adjustCameraPosition(target);
     if (this.currentSiteIndex >= this.pathSite.length) {
       this.viewport.setupViewFromFrustum(this.frustum);
+      if (WalkRoundTool.pathDecorator) {
+        IModelApp.viewManager.dropDecorator(WalkRoundTool.pathDecorator);
+        WalkRoundTool.pathDecorator = undefined;
+      }
       return true;
     } else {
       return false;
@@ -134,8 +138,8 @@ class MyRoaming implements Animator {
   }
 }
 
-let doc: Decorator | undefined = undefined;
 export class WalkRoundTool extends PrimitiveTool {
+  static pathDecorator: Decorator | undefined = undefined;
   public static toolId = "WalkRoundTool";
   public readonly points: Point3d[] = [];
   public readonly paths: Point3d[] = [];
@@ -162,9 +166,9 @@ export class WalkRoundTool extends PrimitiveTool {
     return EventHandled.No;
   }
   public async onDataButtonDown(ev: BeButtonEvent): Promise<EventHandled> {
-    if (doc) {
-      IModelApp.viewManager.dropDecorator(doc);
-      doc = undefined;
+    if (WalkRoundTool.pathDecorator) {
+      IModelApp.viewManager.dropDecorator(WalkRoundTool.pathDecorator);
+      WalkRoundTool.pathDecorator = undefined;
     }
     await IModelApp.locateManager.doLocate(
       new LocateResponse(),
@@ -177,9 +181,10 @@ export class WalkRoundTool extends PrimitiveTool {
     this.paths.push(ev.point);
     return EventHandled.No;
   }
+
   public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
-    doc = new WalkRoundPathDecorator(this.paths);
-    IModelApp.viewManager.addDecorator(doc);
+    WalkRoundTool.pathDecorator = new WalkRoundPathDecorator(this.paths);
+    IModelApp.viewManager.addDecorator(WalkRoundTool.pathDecorator);
     const vp = IModelApp.viewManager.selectedView!;
     if (vp.view.isSpatialView()) {
       const view3d = vp.view as ViewState3d;
