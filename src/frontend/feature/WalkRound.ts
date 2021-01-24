@@ -85,8 +85,6 @@ class MyRoaming implements Animator {
     }
     const eye = this.previousSite;
     const currentAngle = this.view.getLensAngle();
-    const v1 = eye.vectorTo(this.previousSite);
-    const v2 = this.previousSite.vectorTo(site);
 
     let line = LineSegment3d.create(this.previousSite, site);
     const target = line.fractionToPoint(100);
