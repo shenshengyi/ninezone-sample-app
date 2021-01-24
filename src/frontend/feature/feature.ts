@@ -19,12 +19,6 @@ export class TestFeature {
     return testV1Def;
   }
   public static itemLists = new ItemList([
-    TestFeature.createCommand("TeskWalkRound", "漫游", TeskWalkRound),
-    TestFeature.createCommand(
-      "addFeatureSymbology1",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
     TestFeature.createCommand(
       "TestDeSerializationView",
       "切换到保存视图",
@@ -35,59 +29,6 @@ export class TestFeature {
       "保存当前视图至外部文件",
       TestSerializationView
     ),
-    TestFeature.createCommand(
-      "addFeatureSymbology4",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbology5",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbology6",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbology7",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbology8",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbology9",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbology10",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbolog11",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbology712",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
-    TestFeature.createCommand(
-      "addFeatureSymbology37",
-      "测试AddFeatureSymbology",
-      addFeatureSymbology
-    ),
+    TestFeature.createCommand("TeskWalkRound", "漫游", TeskWalkRound),
   ]);
-}
-
-async function addFeatureSymbology() {
-  alert("test wven");
 }

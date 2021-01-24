@@ -28,6 +28,7 @@ import {
 import * as React from "react";
 import { TestFeature } from "../../feature/feature";
 import { AppStatusBarWidget } from "../statusbars/AppStatusBar";
+import { TooltipeWidget } from "../widgets/CustomWidget";
 import { PropertyGridWidget } from "../widgets/PropertyGridWidget";
 import { TreeWidget } from "../widgets/TreeWidget";
 
@@ -47,8 +48,7 @@ export class SampleFrontstage extends FrontstageProvider {
     super();
 
     // Create the content layouts.
-    this._contentLayoutDef = new ContentLayoutDef({
-    });
+    this._contentLayoutDef = new ContentLayoutDef({});
 
     // Create the content group.
     this._contentGroup = new ContentGroup({
@@ -98,7 +98,8 @@ export class SampleFrontstage extends FrontstageProvider {
                 element={
                   <BasicNavigationWidget
                     additionalVerticalItems={ToolbarHelper.createToolbarItemsFromItemDefs(
-                      [this._viewSelectorItemDef],30
+                      [this._viewSelectorItemDef],
+                      30
                     )}
                   />
                 }
@@ -113,7 +114,7 @@ export class SampleFrontstage extends FrontstageProvider {
             allowsMerging={true}
             widgets={[
               <Widget
-                control={TreeWidget}
+                control={TooltipeWidget}
                 fillZone={true}
                 iconSpec="icon-tree"
                 labelKey="NineZoneSample:components.tree"
@@ -202,12 +203,9 @@ export class SampleFrontstage extends FrontstageProvider {
   }
 }
 
-
 class SampleToolWidget extends React.Component {
   public render(): React.ReactNode {
-    const horizontalItems = new ItemList([
-      ...TestFeature.itemLists,
-    ]);
+    const horizontalItems = new ItemList([...TestFeature.itemLists]);
     return <ReviewToolWidget suffixVerticalItems={horizontalItems} />;
   }
 }

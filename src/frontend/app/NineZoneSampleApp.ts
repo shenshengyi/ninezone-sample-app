@@ -20,6 +20,7 @@ import {
 import { initRpc } from "../api/rpc";
 import { Store } from "redux";
 import { WalkRoundTool } from "../feature/WalkRound";
+import { SampleToolAdmin } from "../feature/SampleToolAdmin";
 
 export type RootState = FrameworkRootState;
 
@@ -58,6 +59,7 @@ export class NineZoneSampleApp {
     const opts: IModelAppOptions = {};
     opts.notifications = new AppNotificationManager();
     opts.applicationVersion = "1.0.0";
+    opts.toolAdmin = new SampleToolAdmin();
 
     await IModelApp.startup(opts);
 
