@@ -72,33 +72,6 @@ export class NineZoneSampleApp {
     WalkRoundTool.register(IModelApp.i18n.getNamespace("NineZoneSample"));
   }
   private static async initializeRpc(): Promise<void> {
-    const rpcParams = await this.getConnectionInfo();
-    initRpc(rpcParams);
-  }
-
-  private static async getConnectionInfo(): Promise<
-    BentleyCloudRpcParams | undefined
-  > {
-    const usedBackend = Config.App.getNumber("imjs_backend", UseBackend.Local);
-
-    if (usedBackend === UseBackend.GeneralPurpose) {
-      const urlClient = new UrlDiscoveryClient();
-      const requestContext = new FrontendRequestContext();
-      const orchestratorUrl = await urlClient.discoverUrl(
-        requestContext,
-        "iModelJsOrchestrator.K8S",
-        undefined
-      );
-      return {
-        info: { title: "general-purpose-imodeljs-backend", version: "v2.0" },
-        uriPrefix: orchestratorUrl,
-      };
-    }
-
-    if (usedBackend === UseBackend.Local) return undefined;
-
-    throw new Error(
-      `Invalid backend "${usedBackend}" specified in configuration`
-    );
+    initRpc();
   }
 }
