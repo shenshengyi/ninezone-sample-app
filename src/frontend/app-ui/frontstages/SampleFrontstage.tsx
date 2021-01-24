@@ -48,7 +48,6 @@ export class SampleFrontstage extends FrontstageProvider {
 
     // Create the content layouts.
     this._contentLayoutDef = new ContentLayoutDef({
-      // horizontalSplit: { percentage: 0.75, top: 0, bottom: 1 },
     });
 
     // Create the content group.
@@ -61,12 +60,6 @@ export class SampleFrontstage extends FrontstageProvider {
             iModelConnection: UiFramework.getIModelConnection(),
           },
         },
-        // {
-        //   classId: TableContent,
-        //   applicationData: {
-        //     iModelConnection: UiFramework.getIModelConnection(),
-        //   },
-        // },
       ],
     });
   }
@@ -209,13 +202,10 @@ export class SampleFrontstage extends FrontstageProvider {
   }
 }
 
-/**
- * Define a ToolWidget with Buttons to display in the TopLeft zone.
- */
+
 class SampleToolWidget extends React.Component {
   public render(): React.ReactNode {
     const horizontalItems = new ItemList([
-      CoreTools.selectElementCommand,
       ...TestFeature.itemLists,
     ]);
     return <ReviewToolWidget suffixVerticalItems={horizontalItems} />;
