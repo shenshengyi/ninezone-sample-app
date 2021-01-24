@@ -3,6 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 // make sure webfont brings in the icons and css files.
+import { Config } from "@bentley/bentleyjs-core";
 import "@bentley/icons-generic-webfont/dist/bentley-icons-generic-webfont.css";
 import {
   IModelApp,
@@ -64,8 +65,8 @@ export default class App extends React.Component<{}, AppState> {
         //   imjs_test_imodel_id,
         //   OpenMode.ReadWrite
         // );
-        // const offlineIModel = Config.App.getString("imjs_offline_imodel");
-        const offlineIModel = "./data/006.bim";
+         const offlineIModel = Config.App.getString("imjs_offline_imodel");
+        //const offlineIModel = "./data/006.bim";
         imodel = await SnapshotConnection.openFile(offlineIModel);
         this._onIModelSelected(imodel);
       }
