@@ -157,9 +157,6 @@ export class WalkRoundTool extends PrimitiveTool {
   ): Promise<LocateFilterStatus> {
     return LocateFilterStatus.Accept;
   }
-  async getToolTip(_hit: HitDetail): Promise<HTMLElement | string> {
-    return "hello,NBA2020";
-  }
   public async onMouseWheel(_ev: BeWheelEvent): Promise<EventHandled> {
     return EventHandled.No;
   }
@@ -179,7 +176,6 @@ export class WalkRoundTool extends PrimitiveTool {
     this.paths.push(ev.point);
     return EventHandled.No;
   }
-
   public async onResetButtonUp(_ev: BeButtonEvent): Promise<EventHandled> {
     WalkRoundTool.pathDecorator = new WalkRoundPathDecorator(this.paths);
     IModelApp.viewManager.addDecorator(WalkRoundTool.pathDecorator);

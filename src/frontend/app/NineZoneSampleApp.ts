@@ -2,15 +2,11 @@
  * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
-import { Config } from "@bentley/bentleyjs-core";
 import { FrontendAuthorizationClient } from "@bentley/frontend-authorization-client";
-import { BentleyCloudRpcParams } from "@bentley/imodeljs-common";
 import {
-  FrontendRequestContext,
   IModelApp,
   IModelAppOptions,
 } from "@bentley/imodeljs-frontend";
-import { UrlDiscoveryClient } from "@bentley/itwin-client";
 import {
   AppNotificationManager,
   FrameworkReducer,
