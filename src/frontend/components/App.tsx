@@ -11,11 +11,13 @@ import {
   SnapshotConnection,
   ViewState,
 } from "@bentley/imodeljs-frontend";
+import { Presentation } from "@bentley/presentation-frontend";
 import { ConfigurableUiContent, UiFramework } from "@bentley/ui-framework";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { AppUi } from "../app-ui/AppUi";
 import { AppBackstageComposer } from "../app-ui/backstage/AppBackstageComposer";
+import { onSelectionChanged } from "../app-ui/widgets/TreeWidget";
 import { NineZoneSampleApp } from "../app/NineZoneSampleApp";
 import "./App.css";
 
@@ -65,8 +67,9 @@ export default class App extends React.Component<{}, AppState> {
         //   imjs_test_imodel_id,
         //   OpenMode.ReadWrite
         // );
-         const offlineIModel = Config.App.getString("imjs_offline_imodel");
-        //const offlineIModel = "./data/006.bim";
+      //  const offlineIModel = Config.App.getString("imjs_offline_imodel");
+         const offlineIModel = "D://work_2021//d//h.bim";
+
         imodel = await SnapshotConnection.openFile(offlineIModel);
         this._onIModelSelected(imodel);
       }
@@ -74,8 +77,6 @@ export default class App extends React.Component<{}, AppState> {
       alert(e.message);
     }
   }
-
-
 
   /** Pick the first two available spatial, orthographic or drawing view definitions in the imodel */
   private async getFirstTwoViewDefinitions(
@@ -130,7 +131,6 @@ export default class App extends React.Component<{}, AppState> {
       alert(e.message);
     }
   };
-
 
   private delayedInitialization() {
     if (this.state.offlineIModel) {

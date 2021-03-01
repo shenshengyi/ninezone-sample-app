@@ -3,10 +3,7 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { FrontendAuthorizationClient } from "@bentley/frontend-authorization-client";
-import {
-  IModelApp,
-  IModelAppOptions,
-} from "@bentley/imodeljs-frontend";
+import { IModelApp, IModelAppOptions } from "@bentley/imodeljs-frontend";
 import {
   AppNotificationManager,
   FrameworkReducer,
@@ -17,6 +14,8 @@ import { initRpc } from "../api/rpc";
 import { Store } from "redux";
 import { WalkRoundTool } from "../feature/WalkRound";
 import { SampleToolAdmin } from "../feature/SampleToolAdmin";
+import { ITwinWebAccuSnap } from "./ITwinWebAccuSnap";
+import { SelectElement } from "../feature/feature";
 
 export type RootState = FrameworkRootState;
 
@@ -55,13 +54,17 @@ export class NineZoneSampleApp {
     const opts: IModelAppOptions = {};
     opts.notifications = new AppNotificationManager();
     opts.applicationVersion = "1.0.0";
-    opts.toolAdmin = new SampleToolAdmin();
-
+    //opts.toolAdmin = new SampleToolAdmin();
+    const accuSnap = new ITwinWebAccuSnap();
+    opts.accuSnap = accuSnap;
     await IModelApp.startup(opts);
 
     // initialize RPC communication
     await NineZoneSampleApp.initializeRpc();
     await this.registerTool();
+    (IModelApp.accuSnap as ITwinWebAccuSnap).onDataButtonDown.addListener(
+      SelectElement
+    );
   }
   private static async registerTool() {
     await IModelApp.i18n.registerNamespace("NineZoneSample").readFinished;

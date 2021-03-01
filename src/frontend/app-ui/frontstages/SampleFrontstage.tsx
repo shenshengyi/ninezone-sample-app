@@ -15,6 +15,7 @@ import {
   IModelConnectedViewSelector,
   IModelViewportControl,
   ItemList,
+  ModelSelectorWidgetControl,
   ReviewToolWidget,
   StagePanel,
   SyncUiEventId,
@@ -26,6 +27,7 @@ import {
   ZoneState,
 } from "@bentley/ui-framework";
 import * as React from "react";
+import { HorizontalPropertyGridWidgetControl2 } from "../../components/PropertyGridDemoWidget";
 import { TestFeature } from "../../feature/feature";
 import { AppStatusBarWidget } from "../statusbars/AppStatusBar";
 import { TooltipeWidget } from "../widgets/CustomWidget";

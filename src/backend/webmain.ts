@@ -25,6 +25,7 @@ const webMain = async () => {
 
     // Initialize Presentation
     Presentation.initialize();
+    
     // Get RPCs supported by this backend
     const rpcs = getSupportedRpcs();
     registerRPCImp();

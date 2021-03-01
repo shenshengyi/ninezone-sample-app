@@ -16,6 +16,7 @@ import {
   SyncUiEventDispatcher,
   UiFramework,
 } from "@bentley/ui-framework";
+import { testEvent } from "../feature/ContentTest";
 import { TestDeSerializationView } from "../feature/SavedView";
 import { SampleFrontstage } from "./frontstages/SampleFrontstage";
 import { SampleFrontstage2 } from "./frontstages/SampleFrontstage2";
@@ -33,7 +34,7 @@ export class AppUi {
     await Presentation.initialize({
       activeLocale: IModelApp.i18n.languageList()[0],
     });
-
+    Presentation.selection.selectionChange.addListener(testEvent);
     ConfigurableUiManager.initialize();
   }
 

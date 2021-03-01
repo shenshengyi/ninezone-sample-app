@@ -13,7 +13,7 @@ export class PropertyGridWidget extends WidgetControl {
     super(info, options);
 
     if (options.iModelConnection) {
-      const orientation = Orientation.Vertical;
+      const orientation = Orientation.Horizontal;
       this.reactNode = <SimplePropertiesComponent imodel={options.iModelConnection} orientation={orientation} />;
     }
   }
