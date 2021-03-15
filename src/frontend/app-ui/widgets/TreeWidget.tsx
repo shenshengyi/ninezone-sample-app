@@ -3,7 +3,6 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { Guid } from "@bentley/bentleyjs-core";
-import { PropertyProps } from "@bentley/ecschema-metadata";
 import { IModelApp, IModelConnection } from "@bentley/imodeljs-frontend";
 import {
   Content,
@@ -12,11 +11,9 @@ import {
   Field,
   KeySet,
   NodeKey,
-  RelationshipDirection,
   Ruleset,
   RuleTypes,
 } from "@bentley/presentation-common";
-import { DEFAULT_PROPERTY_GRID_RULESET } from "@bentley/presentation-components";
 import {
   ISelectionProvider,
   Presentation,
@@ -29,17 +26,26 @@ import {
   Table,
 } from "@bentley/ui-components";
 import {
-  ClassGroupingOption,
   ConfigurableCreateInfo,
+  ConfigurableUiManager,
+  IModelConnectedModelsTree,
   ModelsTree,
   ModelsTreeNodeType,
   UiFramework,
   WidgetControl,
 } from "@bentley/ui-framework";
 import * as React from "react";
-import { HorizontalPropertyGridWidget } from "../../components/PropertyGridDemoWidget";
-import SimpleTreeComponent from "../../components/Tree";
+export class VisibilityTreeWidgetControl extends WidgetControl {
+  constructor(info: ConfigurableCreateInfo, options: any) {
+    super(info, options);
+    this.reactNode = <IModelConnectedModelsTree />;
+  }
+}
 
+ConfigurableUiManager.registerControl(
+  "VisibilityTreeWidget",
+  VisibilityTreeWidgetControl
+);
 /** A widget control for displaying the Tree React component */
 export class TreeWidget extends WidgetControl {
   constructor(info: ConfigurableCreateInfo, options: any) {

@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------------------------
-* Copyright (c) Bentley Systems, Incorporated. All rights reserved.
-* See LICENSE.md in the project root for license terms and full copyright notice.
-*--------------------------------------------------------------------------------------------*/
+ * Copyright (c) Bentley Systems, Incorporated. All rights reserved.
+ * See LICENSE.md in the project root for license terms and full copyright notice.
+ *--------------------------------------------------------------------------------------------*/
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
@@ -18,7 +18,8 @@ Logger.initializeToConsole();
 Logger.setLevelDefault(LogLevel.Warning);
 Logger.setLevel(AppLoggerCategory.Frontend, LogLevel.Info);
 
-(async () => {  // eslint-disable-line @typescript-eslint/no-floating-promises
+(async () => {
+  // eslint-disable-line @typescript-eslint/no-floating-promises
   // Start the app.
   await NineZoneSampleApp.startup();
 
@@ -26,8 +27,5 @@ Logger.setLevel(AppLoggerCategory.Frontend, LogLevel.Info);
   await AppUi.initialize();
 
   // when initialization is complete, render
-  ReactDOM.render(
-    <App />,
-    document.getElementById("root") as HTMLElement,
-  );
+  ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
 })();

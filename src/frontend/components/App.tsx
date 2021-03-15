@@ -12,7 +12,11 @@ import {
   ViewState,
 } from "@bentley/imodeljs-frontend";
 import { Presentation } from "@bentley/presentation-frontend";
-import { ConfigurableUiContent, UiFramework } from "@bentley/ui-framework";
+import {
+  ConfigurableUiContent,
+  ThemeManager,
+  UiFramework,
+} from "@bentley/ui-framework";
 import * as React from "react";
 import { Provider } from "react-redux";
 import { AppUi } from "../app-ui/AppUi";
@@ -67,9 +71,13 @@ export default class App extends React.Component<{}, AppState> {
         //   imjs_test_imodel_id,
         //   OpenMode.ReadWrite
         // );
-      //  const offlineIModel = Config.App.getString("imjs_offline_imodel");
-         const offlineIModel = "D://work_2021//d//h.bim";
-
+        //  const offlineIModel = Config.App.getString("imjs_offline_imodel");iModel2.0-MaterialTexture-Test.i.bim
+        // const offlineIModel = "D://work_2021//d//h.bim";
+        // const offlineIModel =
+        //   "D://work_2021//d//iModel2.0-MaterialTexture-Test.i.bim";
+        //  const offlineIModel = "D://3.3//d//0Y0Z.i.bim";D:\3.3\new\1\2
+        // const offlineIModel = "D://3.3//b//tie.bim";
+        const offlineIModel = "..//data//tie1.bim";
         imodel = await SnapshotConnection.openFile(offlineIModel);
         this._onIModelSelected(imodel);
       }
@@ -158,14 +166,16 @@ export default class App extends React.Component<{}, AppState> {
     // render the app
     return (
       <Provider store={NineZoneSampleApp.store}>
-        <div className="App">
-          <div className="Header" style={style}>
-            <h2>
-              {IModelApp.i18n.translate("NineZoneSample:welcome-message")}
-            </h2>
+        <ThemeManager>
+          <div className="App">
+            <div className="Header" style={style}>
+              <h2>
+                {IModelApp.i18n.translate("NineZoneSample:welcome-message")}
+              </h2>
+            </div>
+            {ui}
           </div>
-          {ui}
-        </div>
+        </ThemeManager>
       </Provider>
     );
   }

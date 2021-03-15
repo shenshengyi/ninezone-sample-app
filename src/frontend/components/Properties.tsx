@@ -56,22 +56,23 @@ class AutoExpandingPropertyDataProvider extends PresentationPropertyDataProvider
     const result = await super.getData();
     // console.log(result.records);
     this.expandCategories(result.categories);
+    // console.log(result.records);
     // const co =
     //   result.records[
     //     "/selected-item/-DgnCustomItemTypes_LevelPro__x003A__LevelName"
     //   ];
     // console.log(co);
-    const s = new Set<string>();
-    for (const c of result.categories) {
-      s.add(c.name);
-    }
-    s.forEach((n) => {
-      const r = result.records[n];
-      for (const i of r) {
-        console.log(i.value + "===" + i.description);
-      }
-    });
-
+    // const s = new Set<string>();
+    // for (const c of result.categories) {
+    //   s.add(c.name);
+    // }
+    // s.forEach((n) => {
+    //   const r = result.records[n];
+    //   for (const i of r) {
+    //     console.log(i.value + "===" + i.description);
+    //   }
+    // });
+    console.log(result);
     return result;
   }
 

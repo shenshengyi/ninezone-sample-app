@@ -1,3 +1,4 @@
+import { RenderMode } from "@bentley/imodeljs-common";
 import {
   BeButtonEvent,
   HitDetail,
@@ -10,8 +11,18 @@ import {
   RuleTypes,
 } from "@bentley/presentation-common";
 import { Presentation } from "@bentley/presentation-frontend";
-import { CommandItemDef, ItemList, UiFramework } from "@bentley/ui-framework";
+import {
+  CommandItemDef,
+  ItemList,
+  SyncUiEventDispatcher,
+  UiFramework,
+} from "@bentley/ui-framework";
+import {
+  NineZoneSampleApp,
+  SampleAppUiActionId,
+} from "../app/NineZoneSampleApp";
 import { TestContent } from "./ContentTest";
+import { PropertyValueRendererManagerTestFunc } from "./PropertyValueRendererManagerTest";
 import { TestDeSerializationView, TestSerializationView } from "./SavedView";
 import { TeskWalkRound } from "./WalkRound";
 
@@ -45,7 +56,24 @@ export class TestFeature {
     TestFeature.createCommand("TeskWalkRound", "漫游", TeskWalkRound),
     TestFeature.createCommand("TestContent", "测试TestContent", TestContent),
     TestFeature.createCommand("TestPresent", "测试Rule", TestPresent),
+    TestFeature.createCommand("HideOrShow", "控制选项卡显隐", HideOrShow),
+    TestFeature.createCommand("PropsTest", "自定义属性", PropsTest),
   ]);
+}
+async function PropsTest() {
+  await PropertyValueRendererManagerTestFunc();
+}
+async function HideOrShow() {
+  const vp = IModelApp.viewManager.selectedView!;
+  vp.viewFlags.renderMode = RenderMode.SmoothShade;
+  // alert(NineZoneSampleApp.getUiFrameworkProperty());
+  // SyncUiEventDispatcher.dispatchSyncUiEvent(
+  //   SampleAppUiActionId.toggleFrameworkVersion
+  // );
+  // await NineZoneSampleApp.appUiSettings.frameworkVersion.saveSetting(
+  //   NineZoneSampleApp.uiSettings
+  // );
+  // alert(NineZoneSampleApp.getUiFrameworkProperty());
 }
 export async function SelectElement(_ev: BeButtonEvent, currHit?: HitDetail) {
   if (currHit) {
@@ -144,7 +172,7 @@ async function TestPresent() {
     { imodel, rulesetOrId: ruleset },
     "filter"
   );
-  for (const r of result){
+  for (const r of result) {
     console.log(NodePathElement.toJSON(r));
   }
   console.log(result);
