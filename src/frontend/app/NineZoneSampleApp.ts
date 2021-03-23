@@ -3,7 +3,11 @@
  * See LICENSE.md in the project root for license terms and full copyright notice.
  *--------------------------------------------------------------------------------------------*/
 import { FrontendAuthorizationClient } from "@bentley/frontend-authorization-client";
-import { IModelApp, IModelAppOptions } from "@bentley/imodeljs-frontend";
+import {
+  IModelApp,
+  IModelAppOptions,
+  ViewGlobeLocationTool,
+} from "@bentley/imodeljs-frontend";
 import {
   ActionsUnion,
   AppNotificationManager,
@@ -18,7 +22,7 @@ import { initRpc } from "../api/rpc";
 import { Store } from "redux";
 import { WalkRoundTool } from "../feature/WalkRound";
 import { ITwinWebAccuSnap } from "./ITwinWebAccuSnap";
-import { SelectElement } from "../feature/feature";
+import { DivisionTool, SelectElement } from "../feature/feature";
 import { AppUiSettings } from "./AppUiSettings";
 import { UiSettings } from "@bentley/ui-core";
 export interface SampleAppState {
@@ -93,13 +97,15 @@ export class NineZoneSampleApp {
     // initialize RPC communication
     await NineZoneSampleApp.initializeRpc();
     await this.registerTool();
-    (IModelApp.accuSnap as ITwinWebAccuSnap).onDataButtonDown.addListener(
-      SelectElement
-    );
+
   }
   private static async registerTool() {
     await IModelApp.i18n.registerNamespace("NineZoneSample").readFinished;
     WalkRoundTool.register(IModelApp.i18n.getNamespace("NineZoneSample"));
+    DivisionTool.register(IModelApp.i18n.getNamespace("NineZoneSample"));
+    ViewGlobeLocationTool.register(
+      IModelApp.i18n.getNamespace("NineZoneSample")
+    );
   }
   private static async initializeRpc(): Promise<void> {
     initRpc();

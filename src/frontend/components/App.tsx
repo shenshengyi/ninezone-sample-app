@@ -77,7 +77,9 @@ export default class App extends React.Component<{}, AppState> {
         //   "D://work_2021//d//iModel2.0-MaterialTexture-Test.i.bim";
         //  const offlineIModel = "D://3.3//d//0Y0Z.i.bim";D:\3.3\new\1\2
         // const offlineIModel = "D://3.3//b//tie.bim";
-        const offlineIModel = "..//data//tie1.bim";
+        // const offlineIModel = "..//data//tie1.bim";
+        // const offlineIModel ="d://317//data//geo.bim";
+         const offlineIModel = "..//d//test.bim";
         imodel = await SnapshotConnection.openFile(offlineIModel);
         this._onIModelSelected(imodel);
       }
